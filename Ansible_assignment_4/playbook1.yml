@@ -1,0 +1,16 @@
+---
+
+ - hosts: all
+#   roles: 
+#     - system_manager 
+#     - user-manager
+#     - git-manager   
+   vars_prompt:
+     - name: role_name
+       prompt: "Enter the role name to execute (e.g., demo, demo2)"
+       private: no
+   tasks:
+     - name: Include the specified role
+       ansible.builtin.include_role:
+         name: "{{ role_name }}"
+

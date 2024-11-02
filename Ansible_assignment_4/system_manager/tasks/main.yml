@@ -1,0 +1,5 @@
+---
+# tasks file for system_manager
+
+ - include_tasks:
+     file: playbook1.yml

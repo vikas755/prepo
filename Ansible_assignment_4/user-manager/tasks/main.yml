@@ -1,0 +1,13 @@
+---
+# tasks file for user-manager
+
+     - name: Create a password for user baeldung
+       user:
+         name: baeldung
+         password: "{{ '1234' | password_hash('sha512') }}"
+
+     - name: delete user baeldung
+       user:
+          name: baeldung
+          state: absent
+

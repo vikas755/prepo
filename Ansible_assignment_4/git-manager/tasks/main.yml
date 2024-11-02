@@ -1,0 +1,7 @@
+---
+# tasks file for git-manager
+     - name: Clone a repo with separate git directory
+       ansible.builtin.git:
+         repo: https://github.com/opstree/spring3hibernate.git
+         dest: /root/gitlinux/project1/spring3hibernate
+
