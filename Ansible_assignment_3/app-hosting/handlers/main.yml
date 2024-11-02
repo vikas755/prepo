@@ -1,0 +1,7 @@
+---
+# handlers file for app-hosting
+        - name: start_sql
+          service:
+            name: mysqld
+            state: started
+            enabled: true 

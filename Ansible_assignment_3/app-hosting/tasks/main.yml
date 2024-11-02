@@ -1,0 +1,51 @@
+---
+# tasks file for app-hosting
+     - name: installing mysql,jdk11 and tomcat
+       yum:
+         name: "{{ item }}"
+         state: present
+       with_items:
+         - mysql-server
+         - maven 
+         - java-11-openjdk
+
+       notify: start_sql
+
+     - name: Download Tomcat
+       unarchive:
+         src: https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.108/bin/apache-tomcat-7.0.108.tar.gz
+         dest: /opt/tomcat
+         remote_src: yes
+
+     - name: Set permissions for Tomcat
+       file:
+         path: /opt/tomcat
+         owner: root  # Use your RHEL user if different
+         group: root
+         mode: '0755'
+         recurse: yes
+
+     - name: Clone Spring3HibernateApp repository
+       git:
+         repo: https://github.com/opstree/spring3hibernate.git
+         dest: /opt/spring3hibernate
+
+     - name: Build the WAR file
+       command: mvn clean package
+       args:
+         chdir: /opt/spring3hibernate
+
+     - name: Copy WAR file to Tomcat webapps
+       copy:
+         src: /opt/spring3hibernate/target/Spring3HibernateApp.war
+         dest: /opt/tomcat/apache-tomcat-7.0.108/webapps/
+         remote_src: yes
+
+     - name: insert logininfo
+       command: sed -i '44i <role rolename="manager-gui" />\n<user username="admin" password="admin" roles="manager-gui" />' /opt/tomcat/apache-tomcat-7.0.108/conf/tomcat-users.xml
+        
+     - name: Stop Tomcat
+       shell: "/opt/tomcat/apache-tomcat-7.0.108/bin/shutdown.sh"
+    
+     - name: Start Tomcat
+       shell: "/opt/tomcat/apache-tomcat-7.0.108/bin/startup.sh"
