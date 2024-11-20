@@ -1,2 +1,2 @@
 
-echo "this confirm bash script"
+echo "this is confirm bash script "
