@@ -1,4 +1,4 @@
-package
+
 class test1  
 
 class test1 {
