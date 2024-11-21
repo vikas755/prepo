@@ -1,6 +1,4 @@
-import test1
+import example.jenkins.ExampleClass
 
-def call() {
-  def sc = new test1()
-  return sc.grape()
-}
+def instance = ExampleClass.getInstance()
+boolean flagValue = instance.getFlag('FLAG_1')
